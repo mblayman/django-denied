@@ -30,7 +30,7 @@ def allow(view_func: Callable | list | tuple) -> Callable | list | tuple:
         return view_func
 
     @wraps(view_func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs):  # type: ignore
         # mypy is ignoring the isinstance check for some reason.
         return view_func(*args, **kwargs)  # type: ignore
 
@@ -69,7 +69,7 @@ def authorize(authorizer: Callable) -> Callable:
 
     def decorator(view_func: Callable) -> Callable:
         @wraps(view_func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs):  # type: ignore
             return view_func(*args, **kwargs)
 
         wrapper.__denied_authorizer__ = authorizer  # type: ignore

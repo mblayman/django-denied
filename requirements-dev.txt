@@ -1,6 +1,7 @@
 black
 build
 flake8
+mypy
 pytest
 pytest-django
 tox

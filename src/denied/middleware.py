@@ -30,7 +30,7 @@ class DeniedMiddleware:
         view_func: Callable,
         view_args: list,
         view_kwargs: dict,
-    ):
+    ) -> HttpResponse | None:
         """Process the view by checking against an authorizer."""
         if (
             getattr(view_func, "__denied_exempt__", False)
@@ -48,3 +48,5 @@ class DeniedMiddleware:
         # __denied_authorizer__ is set by the various decorators.
         if not view_func.__denied_authorizer__(request, **view_kwargs):  # type: ignore
             return HttpResponseForbidden()
+
+        return None
