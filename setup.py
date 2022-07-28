@@ -9,4 +9,5 @@ setup(
     author_email="matthewlayman@gmail.com",
     description="An authorization system based exclusively on allow lists",
     packages=find_packages(where="src"),
+    package_dir={"": "src"},
 )
