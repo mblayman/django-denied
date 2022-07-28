@@ -33,6 +33,17 @@ class TestAllowDecorator:
         # chain to continue.
         assert ret is None
 
+    def test_allow_calls_view(self, authenticated_request):
+        """The allow decoractor gets the response from the wrapped view."""
+
+        @allow
+        def allowed_view(request):
+            return HttpResponse()
+
+        response = allowed_view(authenticated_request)
+
+        assert response.status_code == 200
+
     def test_allow_unauthenticated(self, unauthenticated_request):
         """An allowed view does not need authentication."""
 
@@ -61,6 +72,12 @@ class TestAllowDecorator:
         assert urlconf_module == urls
         assert urls.a_root_view.__denied_exempt__  # type: ignore
         assert nested_urls.a_nested_view.__denied_exempt__  # type: ignore
+
+    def test_allow_skips_junk(self):
+        """Anything that doesn't looks like a pattern or resolver is ignored."""
+        allow((["this", "is", "junk"], None, None))
+
+        # There isn't an assertion here, but this should get missing coverage.
 
 
 class TestAuthorizeDecorator:
@@ -91,6 +108,17 @@ class TestAuthorizeDecorator:
         # The contract of the middleware is that None permits the middleware
         # chain to continue.
         assert ret is None
+
+    def test_authorize_calls_view(self, authenticated_request):
+        """The authorize decoractor gets the response from the wrapped view."""
+
+        @authorize(true_authorizer)
+        def allowed_view(request):
+            return HttpResponse()
+
+        response = allowed_view(authenticated_request)
+
+        assert response.status_code == 200
 
     def test_authorized_against_data(self, authenticated_request):
         """A request is authorized against data."""
