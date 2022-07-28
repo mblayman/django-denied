@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from denied.authorizers import any_authorized, staff_authorized
 
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse
@@ -40,6 +42,7 @@ class TestDeniedMiddleware:
 
         response = middleware.process_view(request, get_response, [], {})
 
+        assert response
         assert response.status_code == 302
         assert "login" in response["Location"]
 
@@ -83,7 +86,7 @@ class TestDeniedMiddleware:
 
         response = middleware.process_view(authenticated_request, get_response, [], {})
 
-        assert response.status_code == 403
+        assert response and response.status_code == 403
 
     def test_authorized(self, authenticated_request):
         """An authorizer permits access."""
@@ -111,4 +114,4 @@ class TestDeniedMiddleware:
 
         response = middleware.process_view(authenticated_request, denied_view, [], {})
 
-        assert response.status_code == 403
+        assert response and response.status_code == 403

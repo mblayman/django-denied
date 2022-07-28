@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.http import HttpResponse
 from django.urls import include
 
@@ -92,7 +94,7 @@ class TestAuthorizeDecorator:
 
         response = middleware.process_view(authenticated_request, allowed_view, [], {})
 
-        assert response.status_code == 403
+        assert response and response.status_code == 403
 
     def test_authorized(self, authenticated_request):
         """An authorized request is permitted."""
