@@ -10,5 +10,3 @@ An authorization system based exclusively on allow lists
 * TODO: document api
 * TODO: provide install instructions
 * TODO: contributing guide
-* TODO: pre-commit
-* TODO: package data manifest
