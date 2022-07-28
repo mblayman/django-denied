@@ -12,4 +12,3 @@ An authorization system based exclusively on allow lists
 * TODO: contributing guide
 * TODO: CI / GitHub Actions
 * TODO: code coverage / coveralls
-* TODO: tox / multiple version of Python and Django

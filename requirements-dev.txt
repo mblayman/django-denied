@@ -3,5 +3,7 @@ build
 flake8
 pytest
 pytest-django
+tox
+tox-py
 twine
 -e .
