@@ -10,4 +10,5 @@ setup(
     description="An authorization system based exclusively on allow lists",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
+    install_requires=["django"],
 )

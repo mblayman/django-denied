@@ -4,4 +4,14 @@
 >
 > The Black Knight
 
-An authorization system that depends exclusively on allow lists
+An authorization system based exclusively on allow lists
+
+TODO: document required django apps, see test testings for list.
+TODO: document api
+TODO: provide install instructions
+TODO: contributing guide
+TODO: PSF code of conduct
+TODO: CI / GitHub Actions
+TODO: code coverage / coveralls
+TODO: tox / multiple version of Python and Django
+TODO: cleanup setup. Pick one style

@@ -1,0 +1,9 @@
+[tool.pytest.ini_options]
+addopts = """\
+    --strict-config
+    --strict-markers
+    --ds=tests.settings
+    """
+django_find_project = false
+# TODO: Why do we need pythonpath? How can we get rid of this?
+pythonpath = ". src"

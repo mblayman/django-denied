@@ -1,33 +1,23 @@
-from django.test import RequestFactory
-
-from homeschool.denied.authorizers import any_authorized, staff_authorized
-from homeschool.test import TestCase
-from homeschool.users.tests.factories import UserFactory
+from denied.authorizers import any_authorized, staff_authorized
 
 
-class TestAnyAuthorized(TestCase):
-    rf = RequestFactory()
-
-    def test_authorized(self):
+class TestAnyAuthorized:
+    def test_authorized(self, rf):
         """Any authorized use is permitted."""
-        request = self.rf.get("/")
+        request = rf.get("/")
 
         assert any_authorized(request)
 
 
-class TestStaffAuthorized(TestCase):
-    rf = RequestFactory()
-
-    def test_non_staff(self):
+class TestStaffAuthorized:
+    def test_non_staff(self, authenticated_request):
         """Non-staff access is not permitted."""
-        request = self.rf.get("/")
-        request.user = UserFactory(is_staff=False)
+        assert not staff_authorized(authenticated_request)
 
-        assert not staff_authorized(request)
-
-    def test_staff(self):
+    def test_staff(self, rf, user):
         """Staff access is permitted."""
-        request = self.rf.get("/")
-        request.user = UserFactory(is_staff=True)
+        request = rf.get("/")
+        user.is_staff = True
+        request.user = user
 
         assert staff_authorized(request)

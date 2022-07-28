@@ -1,4 +1,7 @@
 black
 build
 flake8
+pytest
+pytest-django
 twine
+-e .
