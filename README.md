@@ -129,6 +129,7 @@ as well as the popular app,
 [django-allauth](https://django-allauth.readthedocs.io/en/latest/).
 
 ```python
+# project/urls.py
 from denied.decorators import allow
 from django.contrib import admin
 from django.urls import include, path
@@ -153,4 +154,76 @@ of other third party libraries.*
 
 ## Authorizing views
 
-* TODO: document api
+With django-denied,
+a Django view is authorized with the `authorize` decorator
+and an *authorizer* function.
+An authorizer has a function signature of
+
+```python
+from django.http import HttpRequest
+
+
+def example_authorizer(request: HttpRequest, **view_kwargs: dict) -> bool:
+    ...
+```
+
+The authorizer evaluates the incoming request and view information
+and should return `True` if the request is authorized
+or `False` is the request is not authorized.
+The `view_kwargs` include any data that was parsed out of the URL route.
+
+The authorizer acts as a declarative way
+of showing what is authorized
+for the view.
+
+```python
+from denied.decorators import authorize
+
+from .authorizers import example_authorizer
+
+
+@authorize(example_authorizer)
+def example_view(request):
+    ...
+```
+
+To use `authorize` on a class-based view,
+you must attach the decorator to the `dispatch` method.
+
+```python
+from denied.decorators import authorize
+from django.utils.decorators import method_decorator
+from django.views.generic import DetailView
+
+from .authorizers import example_authorizer
+from .models import Example
+
+
+@method_decorator(authorize(example_authorizer), "dispatch")
+class ExampleDetail(DetailView):
+    queryset = Example.objects.all()
+```
+### Built-in authorizers
+
+The library includes built-in authorizers
+for common cases.
+
+#### `denied.authorizers.any_authorized`
+
+This authorizer always evaluates to `True` and is the logical equivalent
+to `login_required` since django-denied always enforces authentication checking.
+
+#### `denied.authorizers.staff_authorized`
+
+This authorizer only permits access when `user.is_staff == True`.
+`staff_authorized` is equivalent to `staff_member_required`
+from the Django `admin` app.
+
+#### Authorizer example
+
+This section shows a more complete example
+of an authorizer
+to give you a sense
+of how django-denied works in practice.
+
+TODO: complete the example.
