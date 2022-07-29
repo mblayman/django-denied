@@ -84,7 +84,7 @@ and are described in the sections below.
 
 By default,
 django-denied assumes that all users should be authenticated,
-with the exception of allowed views and or login pages.
+with the exception of allowed views or login pages.
 
 The login pages are
 
@@ -125,11 +125,11 @@ but are unaware of the django-denied system.
 
 This is an example of using `allow`
 to permit the Django admin views
-as well as the popular
-[django-allauth](https://django-allauth.readthedocs.io/en/latest/) views.
+as well as the popular app,
+[django-allauth](https://django-allauth.readthedocs.io/en/latest/).
 
 ```python
-from denied.decorators import allo
+from denied.decorators import allow
 from django.contrib import admin
 from django.urls import include, path
 
@@ -141,15 +141,15 @@ urlpatterns = [
 
 Note:
 Even if you include `allow` on a view or a set of views,
-that does not mean that the views that you've allowed will suddenly
+that does not mean that what you've allowed will suddenly
 bypass any existing authentication or authorization checking.
 ***This is a feature, not a bug!***
 
 `login_required`, `permission_required`,
 and any other authentication or authorization checking
 that pre-exist on views will remain.
-django-denied does not disable the security features
-of other third party libraries.
+*django-denied does not disable the security features
+of other third party libraries.*
 
 ## Authorizing views
 
