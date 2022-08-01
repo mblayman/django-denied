@@ -226,4 +226,88 @@ of an authorizer
 to give you a sense
 of how django-denied works in practice.
 
-TODO: complete the example.
+For our example,
+we'll consider a project tracking application.
+This is little more than a TODO list
+that groups the tasks into projects.
+
+Here are the models.
+
+```python
+# application/models.py
+from django.contrib.auth.models import User
+from django.db import models
+
+
+class Project(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Task(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    description = models.TextField()
+    completed = models.BooleanField(default=False)
+```
+
+For this simple system,
+only project owners can do anything
+with a task.
+Let's create the authorizer for that.
+
+```python
+# application/authorizers.py
+
+
+def task_authorized(request, **view_kwargs):
+    return Task.objects.filter(
+        project__owner=request.user,
+        pk=view_kwargs["pk"],
+    ).exists()
+```
+
+These are the URLs we want to support
+with this authorizer.
+
+```python
+# application/urls.py
+
+from django.urls import path
+
+from .views import task_detail, task_edit
+
+urlpatterns = [
+    path("tasks/<int:pk>/", task_detail, name="task_detail"),
+    path("tasks/<int:pk>/edit/", task_detail, name="task_edit"),
+]
+```
+
+Now we can set our views
+and set their authorization.
+
+```python
+# application/views.py
+from denied.decorators import authorize
+from django.shortcuts import render
+
+from .authorizers import task_authorized
+from .models import Task
+
+
+@authorize(task_authorized)
+def task_detail(request, pk):
+    task = Task.objects.get(pk=pk)
+    return render(request, "task_detail.html", {"task": task})
+
+
+@authorize(task_authorized)
+def task_edit(request, pk):
+    task = Task.objects.get(pk=pk)
+    return render(request, "task_edit.html", {"task": task})
+```
+
+Since the authorizer handles the access control,
+we can be confident that the task is safe to fetch
+by its key alone.
+Access control is pushed to the boundary of the view
+so that the view's internal logic is about as simple
+as you can make it.
