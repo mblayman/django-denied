@@ -34,5 +34,5 @@ so I don't have to remember all the steps.
 2. Update version in `setup.cfg`.
 3. `rm -rf dist && python -m build`
 4. `twine upload dist/*`
-5. `git tag -a -m "Version X.X"`
+5. `git tag -a vX.X -m "Version X.X"`
 6. `git push --tags`
