@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0
+
+* Validated the package against a production site.
+  Declaring 1.0 to show API stability.
+
 ## 0.2
 
 * Inclusion of all the features ported from the homeschool app
