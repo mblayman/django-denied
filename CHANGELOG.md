@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1
+
+* The login URLs do not need to be explicitly allowed.
+
 ## 1.0
 
 * Validated the package against a production site.
