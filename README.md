@@ -91,6 +91,13 @@ The login pages are
 * The page defined by `settings.LOGIN_URL` and
 * The Django admin login defined at the `admin:login` route.
 
+If you set `LOGIN_URL`,
+django-denied expects the path form
+of the setting
+(e.g., `/accounts/login/`)
+rather than the `url` name
+(e.g., `accounts:login`).
+
 ### Allowing views
 
 Every app is likely to have views
