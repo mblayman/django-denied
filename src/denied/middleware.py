@@ -45,6 +45,10 @@ class DeniedMiddleware:
             return redirect_to_login(request.get_full_path())
 
         if not hasattr(view_func, "__denied_authorizer__"):
+            # Permit the login URLs always.
+            if request.path in LOGIN_URLS:
+                return None
+
             return HttpResponseForbidden()
 
         # __denied_authorizer__ is set by the various decorators.

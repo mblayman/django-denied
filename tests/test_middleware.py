@@ -63,6 +63,19 @@ class TestDeniedMiddleware:
         # chain to continue.
         assert ret is None
 
+    def test_login_allowed(self):
+        """The login page does not need to be allowed explicitly."""
+
+        request = self.rf.get(settings.LOGIN_URL)
+        request.user = AnonymousUser()
+        middleware = DeniedMiddleware(get_response)
+
+        ret = middleware.process_view(request, get_response, [], {})
+
+        # The contract of the middleware is that None permits the middleware
+        # chain to continue.
+        assert ret is None
+
     def test_authentication_exempt(self):
         """A view is exempt from authentication checking."""
 
