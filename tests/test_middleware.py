@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import pytest
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.test import RequestFactory
 
@@ -97,9 +99,8 @@ class TestDeniedMiddleware:
         """A view is denied by default."""
         middleware = DeniedMiddleware(get_response)
 
-        response = middleware.process_view(authenticated_request, get_response, [], {})
-
-        assert response and response.status_code == 403
+        with pytest.raises(PermissionDenied):
+            middleware.process_view(authenticated_request, get_response, [], {})
 
     def test_authorized(self, authenticated_request):
         """An authorizer permits access."""
@@ -125,6 +126,5 @@ class TestDeniedMiddleware:
         denied_view.__denied_authorizer__ = false_authorizer  # type: ignore
         middleware = DeniedMiddleware(denied_view)
 
-        response = middleware.process_view(authenticated_request, denied_view, [], {})
-
-        assert response and response.status_code == 403
+        with pytest.raises(PermissionDenied):
+            middleware.process_view(authenticated_request, denied_view, [], {})

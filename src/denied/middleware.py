@@ -4,7 +4,8 @@ from typing import Callable
 
 from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
-from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
+from django.core.exceptions import PermissionDenied
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 
 LOGIN_URLS = {
@@ -49,10 +50,10 @@ class DeniedMiddleware:
             if request.path in LOGIN_URLS:
                 return None
 
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
         # __denied_authorizer__ is set by the various decorators.
         if not view_func.__denied_authorizer__(request, **view_kwargs):  # type: ignore
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
         return None
