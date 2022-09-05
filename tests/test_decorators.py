@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.urls import include
 
@@ -92,9 +94,8 @@ class TestAuthorizeDecorator:
 
         middleware = DeniedMiddleware(allowed_view)
 
-        response = middleware.process_view(authenticated_request, allowed_view, [], {})
-
-        assert response and response.status_code == 403
+        with pytest.raises(PermissionDenied):
+            middleware.process_view(authenticated_request, allowed_view, [], {})
 
     def test_authorized(self, authenticated_request):
         """An authorized request is permitted."""

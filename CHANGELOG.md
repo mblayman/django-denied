@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.2
+
+* Use `PermissionDenied` in the middleware
+  instead of `HttpResponseForbidden`.
+  This lets Django use the `permission_denied` handler
+  if users have defined a custom 403 error page.
+
 ## 1.1
 
 * The login URLs do not need to be explicitly allowed.
