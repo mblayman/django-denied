@@ -53,7 +53,7 @@ class DeniedMiddleware:
             raise PermissionDenied()
 
         # __denied_authorizer__ is set by the various decorators.
-        if not view_func.__denied_authorizer__(request, **view_kwargs):  # type: ignore
+        if not view_func.__denied_authorizer__(request, **view_kwargs):
             raise PermissionDenied()
 
         return None
