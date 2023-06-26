@@ -32,7 +32,7 @@ def allow(view_func: Callable | list | tuple) -> Callable | list | tuple:
     @wraps(view_func)
     def wrapper(*args, **kwargs):  # type: ignore
         # mypy is ignoring the isinstance check for some reason.
-        return view_func(*args, **kwargs)  # type: ignore
+        return view_func(*args, **kwargs)
 
     wrapper.__denied_exempt__ = True  # type: ignore
     return wrapper
