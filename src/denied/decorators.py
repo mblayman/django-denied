@@ -8,18 +8,15 @@ from django.urls.resolvers import URLPattern, URLResolver
 
 
 @overload
-def allow(view_func: Callable) -> Callable:
-    ...  # pragma: no cover
+def allow(view_func: Callable) -> Callable: ...  # pragma: no cover
 
 
 @overload
-def allow(view_func: list) -> list:
-    ...  # pragma: no cover
+def allow(view_func: list) -> list: ...  # pragma: no cover
 
 
 @overload
-def allow(view_func: tuple) -> tuple:
-    ...  # pragma: no cover
+def allow(view_func: tuple) -> tuple: ...  # pragma: no cover
 
 
 def allow(view_func: Callable | list | tuple) -> Callable | list | tuple:
