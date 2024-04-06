@@ -3,6 +3,9 @@
 ## 1.3
 
 * Allow media routes when using the file system storage (i.e., MEDIA_URL and MEDIA_ROOT)
+* Drop support for Python 3.7
+* Add support for Python 3.11
+* Add support for Python 3.12
 
 ## 1.2
 
