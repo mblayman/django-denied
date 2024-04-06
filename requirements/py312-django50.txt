@@ -1,0 +1,4 @@
+coverage
+Django<5.1
+pytest
+pytest-django
