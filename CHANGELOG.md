@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3
+
+* Allow media routes when using the file system storage (i.e., MEDIA_URL and MEDIA_ROOT)
+
 ## 1.2
 
 * Use `PermissionDenied` in the middleware

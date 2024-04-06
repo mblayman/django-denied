@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import pytest
-from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
@@ -48,7 +47,7 @@ class TestDeniedMiddleware:
         assert response.status_code == 302
         assert "login" in response["Location"]
 
-    def test_authentication_not_required_for_login(self):
+    def test_authentication_not_required_for_login(self, settings):
         """A login URL is exempt from the authentication checking."""
 
         @authorize(any_authorized)
@@ -65,7 +64,7 @@ class TestDeniedMiddleware:
         # chain to continue.
         assert ret is None
 
-    def test_login_allowed(self):
+    def test_login_allowed(self, settings):
         """The login page does not need to be allowed explicitly."""
 
         request = self.rf.get(settings.LOGIN_URL)
@@ -128,3 +127,29 @@ class TestDeniedMiddleware:
 
         with pytest.raises(PermissionDenied):
             middleware.process_view(authenticated_request, denied_view, [], {})
+
+    def test_media_allowed(self, settings):
+        """All media is allowed when a MEDIA_URL is present."""
+        settings.MEDIA_URL = "/media/"
+        request = self.rf.get("/media/some-user-file.jpg")
+        request.user = AnonymousUser()
+        middleware = DeniedMiddleware(get_response)
+
+        ret = middleware.process_view(request, get_response, [], {})
+
+        # The contract of the middleware is that None permits the middleware
+        # chain to continue.
+        assert ret is None
+
+    def test_media_disallowed(self, settings):
+        """Media URLs are handled like all other routes when MEDIA_URL is not set."""
+        settings.MEDIA_URL = ""
+        request = self.rf.get("/media/some-user-file.jpg")
+        request.user = AnonymousUser()
+        middleware = DeniedMiddleware(get_response)
+
+        ret = middleware.process_view(request, get_response, [], {})
+
+        # The contract of the middleware is that None permits the middleware
+        # chain to continue.
+        assert ret is None

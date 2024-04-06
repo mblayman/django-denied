@@ -42,6 +42,9 @@ class DeniedMiddleware:
         ):
             return None
 
+        if settings.MEDIA_URL and request.path.startswith(settings.MEDIA_URL):
+            return None
+
         if not request.user.is_authenticated and request.path not in LOGIN_URLS:
             return redirect_to_login(request.get_full_path())
 

@@ -28,3 +28,9 @@ TEMPLATES = [
 ]
 
 USE_TZ = True
+
+# The default for MEDIA_URL is an empty string, but something is the test setup
+# is setting it to "/". This is super annoying because it messes up the middleware
+# processing. Since there are explicit tests to check when MEDIA_URL is an empty string
+# or has a value, this is set to something that won't conflict.
+MEDIA_URL = "/not-a-path-that-the-suite-tests-against/"
