@@ -42,7 +42,7 @@ jobs:
       run: tox --py current
 
     - name: Upload coverage data
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-data
         path: '.coverage.*'
