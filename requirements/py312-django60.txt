@@ -1,4 +1,4 @@
 coverage
-Django<4.2
+Django<6.1
 pytest
 pytest-django

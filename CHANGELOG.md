@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Unreleased
+
+* Drop support for Python 3.8, 3.9, and 3.10 because they have reached end-of-life.
+* Add support for Python 3.13, 3.14, and 3.15.
+
 ## 1.3
 
 * Allow media routes when using the file system storage (i.e., MEDIA_URL and MEDIA_ROOT)
